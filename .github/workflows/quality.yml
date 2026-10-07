@@ -10,6 +10,9 @@ on:
         required: false
 permissions:
   contents: read
+concurrency:
+  group: cloud-quality-${{ github.ref }}-${{ inputs.base_url }}
+  cancel-in-progress: true
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -39,3 +42,22 @@ jobs:
           name: site-dist
           path: dist/
           retention-days: 14
+  deploy:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Start Cloudflare build after quality checks
+        env:
+          DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request
+          request = urllib.request.Request(os.environ['DEPLOY_HOOK'], method='POST')
+          with urllib.request.urlopen(request, timeout=60) as response:
+              result = json.load(response)
+          if not result.get('success'):
+              raise SystemExit('Cloudflare rejected the deployment trigger')
+          print('Cloudflare build triggered successfully. Track completion in the Pages dashboard.')
+          PY
