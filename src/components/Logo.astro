@@ -1,0 +1,7 @@
+---
+interface Props { large?: boolean }
+const { large = false } = Astro.props;
+---
+<svg class:list={['wordmark', { 'wordmark-large': large }]} viewBox="244 706 2058 267" role="img" aria-label="AliaCode">
+  <image href="/logo-aliacode.png" width="2560" height="1664" />
+</svg>

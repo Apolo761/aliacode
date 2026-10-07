@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aliacode.com/sitemap.xml
