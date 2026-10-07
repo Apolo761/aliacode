@@ -14,6 +14,8 @@ test('page renders without errors, overflow or broken local links', async ({ pag
   expect(await page.locator('a[href^="mailto:"], a[href*="wa.me"], form').count()).toBe(0);
   expect((await page.request.get('/logo-aliacode.png')).ok()).toBe(true);
   await page.screenshot({ path: `test-results/${testInfo.project.name}-full.png`, fullPage: true, animations: 'disabled' });
+  await page.goto('/');
+  await page.screenshot({ path: `test-results/${testInfo.project.name}-hero.png`, animations: 'disabled' });
   expect(errors).toEqual([]);
 });
 
