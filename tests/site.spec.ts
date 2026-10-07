@@ -36,7 +36,7 @@ test('interactive examples update the whole workflow and FAQ opens', async ({ pa
 test('navigation reaches sections and mobile menu supports escape', async ({ page }, testInfo) => {
   await page.goto('/');
   if (testInfo.project.name === 'mobile') {
-    const menu = page.getByRole('button', { name: 'Abrir menu' });
+    const menu = page.locator('.menu-toggle');
     await menu.click();
     await expect(menu).toHaveAttribute('aria-expanded', 'true');
     await page.keyboard.press('Escape');
