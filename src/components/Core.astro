@@ -1,4 +1,6 @@
 ---
+interface Props { topLabel: string; bottomLabel: string }
+const { topLabel, bottomLabel } = Astro.props;
 const rings = Array.from({length: 48}, (_, i) => ({ r: 100 + i * 3.45, opacity: .15 + .5 * Math.pow(Math.sin(i / 47 * Math.PI), 2) }));
 ---
 <div class="core-art" aria-hidden="true">
@@ -18,6 +20,6 @@ const rings = Array.from({length: 48}, (_, i) => ({ r: 100 + i * 3.45, opacity: 
     <circle cx="543" cy="185" r="4" fill="#dedede"/>
     <circle cx="111" cy="492" r="3" fill="#dedede"/>
   </svg>
-  <span class="art-note note-top">IDEIA → INTELIGÊNCIA</span>
-  <span class="art-note note-bottom">CÓDIGO → POSSIBILIDADE</span>
+  <span class="art-note note-top">{topLabel}</span>
+  <span class="art-note note-bottom">{bottomLabel}</span>
 </div>

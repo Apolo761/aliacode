@@ -15,7 +15,7 @@ Landing page institucional em Astro, publicada na Cloudflare, com paleta em pret
 
 ## Conteúdo
 
-Página principal em `src/pages/index.astro`; estilos em `src/styles/global.css`. Fonte Inter hospedada no próprio site, sob licença SIL Open Font License.
+Português em `/`, inglês em `/en/`, com seletor de idioma que preserva a seção atual. Conteúdo em `src/content/site.ts`; página compartilhada em `src/components/Landing.astro`; estilos em `src/styles/global.css`. O rodapé contém a razão social e o CNPJ da empresa. Fonte Inter hospedada no próprio site, sob licença SIL Open Font License.
 
 ## Domínio
 

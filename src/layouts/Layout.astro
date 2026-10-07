@@ -1,19 +1,27 @@
 ---
 import '../styles/global.css';
-interface Props { title?: string; description?: string }
-const { title = 'AliaCode — Inteligência artificial. Impacto real.', description = 'Somos uma software house que transforma desafios de negócio em soluções de inteligência artificial. Agentes de IA, automações e software sob medida.' } = Astro.props;
+import { content, type Locale } from '../content/site';
+interface Props { title?: string; description?: string; locale?: Locale; notFound?: boolean }
+const { locale = 'pt-BR', notFound = false } = Astro.props;
+const { title = content[locale].title, description = content[locale].description } = Astro.props;
 ---
 <!doctype html>
-<html lang="pt-BR">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#090909" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    {notFound ? <meta name="robots" content="noindex" /> : <>
+      <link rel="canonical" href={new URL(locale === 'en' ? '/en/' : '/', Astro.site)} />
+      <link rel="alternate" hreflang="pt-BR" href={new URL('/', Astro.site)} />
+      <link rel="alternate" hreflang="en" href={new URL('/en/', Astro.site)} />
+      <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site)} />
+    </>}
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'pt_BR'} />
+    <meta property="og:locale:alternate" content={locale === 'en' ? 'pt_BR' : 'en_US'} />
     <meta property="og:site_name" content="AliaCode" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

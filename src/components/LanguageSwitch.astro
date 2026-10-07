@@ -1,0 +1,18 @@
+---
+import { content, type Locale } from '../content/site';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+<div class="language-switch" role="group" aria-label={content[locale].languageLabel}>
+  <a href="/" data-language-path="/" lang="pt-BR" hreflang="pt-BR" aria-label="Português (Brasil)" aria-current={locale === 'pt-BR' ? 'page' : undefined}>PT-BR</a>
+  <a href="/en/" data-language-path="/en/" lang="en" hreflang="en" aria-label="English" aria-current={locale === 'en' ? 'page' : undefined}>EN</a>
+</div>
+<script>
+  function syncLanguageLinks() {
+    document.querySelectorAll<HTMLAnchorElement>('[data-language-path]').forEach(link => {
+      link.href = `${link.dataset.languagePath}${location.hash}`;
+    });
+  }
+  syncLanguageLinks();
+  window.addEventListener('hashchange', syncLanguageLinks);
+</script>

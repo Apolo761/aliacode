@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from './Logo.astro';
+import Arrow from './Arrow.astro';
+import Core from './Core.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { content, type Locale } from '../content/site';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const copy = content[locale];
+const { solutions, steps, questions, scenarios } = copy;
+const scenario = scenarios.atendimento;
+---
+<Layout locale={locale} title={copy.title} description={copy.description}>
+  <a class="skip-link" href="#conteudo">{copy.skip}</a>
+  <header class="site-header">
+    <div class="nav-shell wrap">
+      <a class="brand" href="#inicio" aria-label={copy.home}><Logo /></a>
+      <nav aria-label={copy.navLabel} id="main-nav">
+        <a href="#solucoes">{copy.nav[0]}</a><a href="#possibilidades">{copy.nav[1]}</a><a href="#processo">{copy.nav[2]}</a><a href="#sobre">{copy.nav[3]}</a>
+      </nav>
+      <a class="nav-cta" href="#solucoes">{copy.navCta} <Arrow diagonal /></a>
+      <LanguageSwitch locale={locale} /><button class="menu-toggle" aria-label={copy.openMenu} data-open-label={copy.openMenu} data-close-label={copy.closeMenu} aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+    </div>
+  </header>
+  <main id="conteudo">
+    <section class="hero wrap" id="inicio" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> SOFTWARE HOUSE · AI FIRST</p>
+        <h1 id="hero-title">{copy.hero.lines[0]}<br />{copy.hero.lines[1]}<br /><span>{copy.hero.lines[2]}</span></h1>
+        <p class="hero-description">{copy.hero.description}</p>
+        <div class="hero-actions"><a class="button button-light" href="#solucoes">{copy.hero.cta} <Arrow /></a><a class="text-link" href="#processo">{copy.nav[2]} <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <Core topLabel={copy.hero.artTop} bottomLabel={copy.hero.artBottom} />
+      <div class="hero-bottom"><span>{copy.hero.purpose}</span><span>{copy.hero.business}</span><a href="#solucoes" aria-label={copy.hero.scrollLabel}>{copy.hero.scroll} <span aria-hidden="true">↓</span></a></div>
+    </section>
+
+    <section class="solutions section wrap" id="solucoes" aria-labelledby="solutions-title">
+      <div class="section-heading"><p class="eyebrow">{copy.solutionsHeading.eyebrow}</p><div><h2 id="solutions-title">{copy.solutionsHeading.lines[0]}<br /><span>{copy.solutionsHeading.lines[1]}</span></h2><p>{copy.solutionsHeading.description}</p></div></div>
+      <div class="solution-grid">
+        {solutions.map((solution) => <article class={`solution solution-${solution.kind}`}>
+          <div class="solution-top"><span class="mono">/{solution.n}</span><span class="solution-icon" aria-hidden="true">↗</span></div>
+          <div class={`solution-art ${solution.kind}`} aria-hidden="true">
+            {solution.kind === 'agents' && <><div class="agent-orb">A</div><div class="agent-message"><span class="tiny-label">{copy.art.agent}</span><span>{copy.art.message}</span><div class="mini-wave">{Array.from({length: 24},(_, i) => <i style={`--h:${8 + (Math.sin(i * 1.8) + 1) * 12}px`}></i>)}</div></div></>}
+            {solution.kind === 'flows' && <><span class="flow-node">↳</span><span class="flow-connector"></span><span class="flow-node main-node">✳</span><span class="flow-connector"></span><div class="flow-ends"><span>{copy.art.flow[0]}</span><span>{copy.art.flow[1]} <b>↗</b></span><span>{copy.art.flow[2]}</span></div></>}
+            {solution.kind === 'software' && <div class="code-window"><div class="window-bar"><i></i><i></i><i></i><span>{copy.art.product}</span></div><div class="code-lines"><span><em>const</em> {copy.art.idea}</span><span><em>const</em> {copy.art.solution} = <strong>{copy.art.create}</strong>({'{'}</span><span class="indent">{copy.art.ingredients}</span><span>{'}'});<b class="cursor"></b></span></div></div>}
+            {solution.kind === 'data' && <div class="data-viz"><div class="data-caption"><span>{copy.art.data}</span><span>↗</span></div><div class="bars">{[23,37,29,49,42,56,65,53,72,67,83,96].map((height) => <span style={`--bar:${height}%`}></span>)}</div><div class="data-baseline"><span>{copy.art.context}</span><span>{copy.art.decision}</span></div></div>}
+          </div>
+          <h3>{solution.title}</h3><p>{solution.text}</p><ul class="tags" aria-label={copy.art.applications}>{solution.tags.map(tag => <li>{tag}</li>)}</ul>
+        </article>)}
+      </div>
+    </section>
+
+    <section class="possibilities section wrap" id="possibilidades" aria-labelledby="possibilities-title">
+      <div class="section-heading"><p class="eyebrow">{copy.possibilities.eyebrow}</p><div><h2 id="possibilities-title">{copy.possibilities.lines[0]}<br /><span>{copy.possibilities.lines[1]}</span></h2><p>{copy.possibilities.description}</p></div></div>
+      <div class="scenario-buttons" role="group" aria-label={copy.possibilities.choose}><button data-scenario="atendimento" aria-pressed="true">{copy.possibilities.tabs[0]} <span>↗</span></button><button data-scenario="operacao" aria-pressed="false">{copy.possibilities.tabs[1]} <span>↗</span></button><button data-scenario="conhecimento" aria-pressed="false">{copy.possibilities.tabs[2]} <span>↗</span></button></div>
+      <div class="scenario-stage">
+        <div class="scenario-copy" aria-live="polite" aria-atomic="true"><span class="tiny-label" id="scenario-label">{scenario.label}</span><h3 id="scenario-title">{scenario.title}</h3><p id="scenario-description">{scenario.description}</p><ul id="scenario-benefits">{scenario.benefits.map(benefit => <li>{benefit}</li>)}</ul></div>
+        <div class="scenario-diagram"><div class="diagram-caption"><span class="status-dot"></span> {copy.possibilities.example}</div><div class="diagram-input"><span class="tiny-label">{copy.possibilities.input}</span><p id="scenario-input">{scenario.input}</p></div><div class="diagram-line"></div><div class="diagram-engine"><span class="engine-symbol">Λ</span><div><strong>{copy.possibilities.engine}</strong><span id="scenario-action">{scenario.action}</span></div><span class="engine-spark">✳</span></div><div class="diagram-line"></div><div class="diagram-output"><span class="tiny-label">{copy.possibilities.output}</span><p id="scenario-output">{scenario.output}</p><span class="output-tag" id="scenario-tag">{scenario.tag}</span></div></div>
+      </div>
+      <p class="demo-note">{copy.possibilities.note}</p>
+    </section>
+
+    <section class="process-light" id="processo" aria-labelledby="process-title"><div class="wrap section">
+      <div class="section-heading"><p class="eyebrow">{copy.process.eyebrow}</p><div><h2 id="process-title">{copy.process.lines[0]}<br />{copy.process.lines[1]}</h2><p>{copy.process.description}</p></div></div>
+      <div class="process-grid">{steps.map(([title, subtitle, text], i) => <article><div class="process-number"><span>0{i + 1}</span><Arrow /></div><h3>{title}<span>.</span></h3><h4>{subtitle}</h4><p>{text}</p></article>)}</div>
+      <div class="process-bottom"><span>{copy.process.context}</span><p>{copy.process.partnership}</p></div>
+    </div></section>
+
+    <section class="about section wrap" id="sobre" aria-labelledby="about-title"><p class="eyebrow">{copy.about.eyebrow}</p><div class="about-layout"><h2 id="about-title">{copy.about.lines[0]}<br /><span>{copy.about.lines[1]}</span></h2><div class="about-copy"><p>{copy.about.intro}</p><p>{copy.about.description}</p><div class="principles">{copy.about.principles.map(principle => <span>{principle}</span>)}</div></div></div></section>
+
+    <section class="faq wrap" aria-labelledby="faq-title"><div><p class="eyebrow">{copy.faq.eyebrow}</p><h2 id="faq-title">{copy.faq.lines[0]}<br /><span>{copy.faq.lines[1]}</span></h2></div><div class="faq-list">{questions.map(([question, answer]) => <details><summary>{question}<span aria-hidden="true">+</span></summary><p>{answer}</p></details>)}</div></section>
+    <section class="closing wrap"><p class="eyebrow">{copy.closing.eyebrow}</p><h2>{copy.closing.title}<span>.</span></h2><a class="text-link" href="#solucoes">{copy.closing.cta} <Arrow diagonal /></a></section>
+  </main>
+  <footer class="site-footer wrap"><a class="footer-wordmark" href="#inicio" aria-label={copy.footer.home}><Logo large /></a><div class="footer-company" role="group" aria-label={copy.footer.companyLabel}><p>ALIACODE DESENVOLVIMENTO DE SOFTWARE LTDA</p><p>CNPJ: <span>58.056.597/0001-76</span></p></div><div class="footer-meta"><p>© {new Date().getFullYear()} AliaCode. {copy.footer.rights}</p><span>{copy.footer.tagline}</span><a href="#inicio">{copy.footer.top} ↑</a></div></footer>
+
+  <script type="application/json" id="scenario-data" set:html={JSON.stringify(scenarios).replace(/</g, '\\u003c')} />
+  <script>
+    import type { Scenario } from '../content/site';
+    const menu = document.querySelector<HTMLButtonElement>('.menu-toggle');
+    const navigation = document.querySelector<HTMLElement>('#main-nav');
+    function closeMenu() { menu?.setAttribute('aria-expanded', 'false'); menu?.setAttribute('aria-label', menu.dataset.openLabel || ''); navigation?.classList.remove('is-open'); }
+    menu?.addEventListener('click', () => { const open = menu.getAttribute('aria-expanded') !== 'true'; menu.setAttribute('aria-expanded', String(open)); menu.setAttribute('aria-label', (open ? menu.dataset.closeLabel : menu.dataset.openLabel) || ''); navigation?.classList.toggle('is-open', open); });
+    navigation?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', event => { if(event.key === 'Escape' && menu?.getAttribute('aria-expanded') === 'true') { closeMenu(); menu.focus(); } });
+    document.addEventListener('click', event => { if(event.target instanceof Node && !navigation?.contains(event.target) && !menu?.contains(event.target)) closeMenu(); });
+    matchMedia('(min-width: 901px)').addEventListener('change', closeMenu);
+    const scenarios: Record<string, Scenario> = JSON.parse(document.getElementById('scenario-data')?.textContent || '{}');
+    document.querySelectorAll<HTMLButtonElement>('[data-scenario]').forEach(button => button.addEventListener('click', () => {
+      const key = button.dataset.scenario as keyof typeof scenarios;
+      const scenario = scenarios[key];
+      if(!scenario) return;
+      document.querySelectorAll('[data-scenario]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      for(const field of ['label', 'title', 'description', 'input', 'action', 'output', 'tag'] as const) { const element = document.getElementById(`scenario-${field}`); if(element) element.textContent = scenario[field]; }
+      const benefits = document.getElementById('scenario-benefits');
+      benefits?.replaceChildren(...scenario.benefits.map(text => { const li = document.createElement('li'); li.textContent = text; return li; }));
+    }));
+  </script>
+</Layout>

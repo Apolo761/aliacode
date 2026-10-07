@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Logo from './Logo.astro';
+import LanguageSwitch from './LanguageSwitch.astro';
+import { content, type Locale } from '../content/site';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const copy = content[locale];
+const home = locale === 'en' ? '/en/' : '/';
+---
+<Layout locale={locale} title={copy.notFound.title} notFound>
+  <main class="not-found wrap">
+    <div class="not-found-nav"><a href={home} aria-label={copy.home}><Logo /></a><LanguageSwitch locale={locale} /></div>
+    <p class="eyebrow">{copy.notFound.eyebrow}</p>
+    <h1>{copy.notFound.lines[0]}<br />{copy.notFound.lines[1]}</h1>
+    <p>{copy.notFound.description}</p>
+    <a class="button button-light" href={home}>{copy.notFound.back} <span aria-hidden="true">↗</span></a>
+  </main>
+</Layout>
