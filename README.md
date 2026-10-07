@@ -1,6 +1,6 @@
 # AliaCode
 
-Landing page institucional em Astro, publicada na Cloudflare. Sem formulário, e-mail ou WhatsApp, conforme orientação da empresa.
+Landing page institucional em Astro, publicada na Cloudflare, com paleta em preto, branco e tons de cinza. Sem formulário, e-mail ou WhatsApp, conforme orientação da empresa.
 
 ## Infraestrutura
 
@@ -20,7 +20,7 @@ Página principal em `src/pages/index.astro`; estilos em `src/styles/global.css`
 ## Domínio
 
 - Produção: https://aliacode.com
-- `www.aliacode.com` redireciona para o domínio principal.
+- `www.aliacode.com` também atende a página; a URL canônica é `https://aliacode.com/`.
 - Cloudflare Pages: projeto `aliacode`, conectado a este repositório.
 - Registro na Hostinger; DNS na Cloudflare (`amanda.ns.cloudflare.com` e `kyle.ns.cloudflare.com`).
 - E-mail continua na Hostinger. MX, SPF, DMARC, DKIM, autoconfig e autodiscover foram preservados; CNAMEs de e-mail estão sem proxy.
